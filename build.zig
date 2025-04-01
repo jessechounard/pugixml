@@ -31,11 +31,11 @@ pub fn build(b: *std.Build) !void {
             "pugixml.cpp",
         },
         .flags = &.{
-            if (wchar_mode) "" else "-DPUGIXML_WCHAR_MODE",
-            if (compact) "" else "-DPUGIXML_COMPACT",
-            if (no_xpath) "" else "-DPUGIXML_NO_XPATH",
-            if (no_stl) "" else "-DPUGIXML_NO_STL",
-            if (no_exceptions) "" else "-DPUGIXML_NO_EXCEPTIONS",
+            if (wchar_mode) "-DPUGIXML_WCHAR_MODE" else "",
+            if (compact) "-DPUGIXML_COMPACT" else "",
+            if (no_xpath) "-DPUGIXML_NO_XPATH" else "",
+            if (no_stl) "-DPUGIXML_NO_STL" else "",
+            if (no_exceptions) "-DPUGIXML_NO_EXCEPTIONS" else "",
         },
     });
 
