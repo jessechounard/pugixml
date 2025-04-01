@@ -22,7 +22,6 @@ Finally, in your C++ file, you can use the library by including `pugixml.hpp`.
 
 ## Todo
 - Demonstrate how the configurable build options work.  
-- Currently a file named `pugiconfig.generated.hpp` is created in the root folder. I think it would be much better in the `.zig-cache`, but I couldn't seem to get that to work.
 - Currently only tested on my Windows box. More validation required.
 - Add a CI step on github.
 

@@ -39,9 +39,6 @@ pub fn build(b: *std.Build) !void {
         },
     });
 
-    var file = try std.fs.cwd().createFile("pugiconfig.generated.hpp", .{});
-    defer file.close();
-
     const max_size = ("// build-time generated file, see pugiconfig.original.hpp for license\n\n" ++
         "#ifndef HEADER_PUGICONFIG_HPP\n" ++
         "#define HEADER_PUGICONFIG_HPP\n\n" ++
@@ -84,12 +81,14 @@ pub fn build(b: *std.Build) !void {
     } else {
         position = append_at(output_file_buffer, position, "// #define PUGIXML_NO_EXCEPTIONS\n");
     }
-
     position = append_at(output_file_buffer, position, "\n#endif// HEADER_PUGICONFIG_HPP\n");
 
-    try file.writeAll(output_file_buffer[0..position]);
+    //    const wf = b.addWriteFile("pugiconfig.generated.hpp", output_file_buffer[0..position]);
 
-    lib.installHeader(b.path("pugiconfig.generated.hpp"), "pugiconfig.hpp");
+    const wf = b.addWriteFiles();
+    const path = wf.add("pugiconfig.generated.hpp", output_file_buffer[0..position]);
+
+    lib.installHeader(path, "pugiconfig.hpp");
     lib.installHeader(upstream.path("src/pugiconfig.hpp"), "pugiconfig.original.hpp");
     lib.installHeader(upstream.path("src/pugixml.hpp"), "pugixml.hpp");
 
