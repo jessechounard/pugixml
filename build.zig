@@ -7,9 +7,6 @@ fn append_at(target: []u8, position: usize, source: []const u8) usize {
 }
 
 pub fn build(b: *std.Build) !void {
-    const target = b.standardTargetOptions(.{});
-    const optimize = b.standardOptimizeOption(.{});
-
     const wchar_mode = b.option(bool, "wchar-mode", "Is PUGIXML_WCHAR_MODE enabled? (default: false)") orelse false;
     const compact = b.option(bool, "compact", "Is PUGIXML_COMPACT enabled? (default: false)") orelse false;
     const no_xpath = b.option(bool, "no-xpath", "Is PUGIXML_NO_XPATH enabled? (default: false)") orelse false;
@@ -18,12 +15,15 @@ pub fn build(b: *std.Build) !void {
 
     const upstream = b.dependency("pugixml", .{});
 
-    const lib = b.addStaticLibrary(.{
+    const lib = b.addLibrary(.{
         .name = "pugixml",
-        .target = target,
-        .optimize = optimize,
+        .linkage = .static,
+        .root_module = b.createModule(.{
+            .target = b.standardTargetOptions(.{}),
+            .optimize = b.standardOptimizeOption(.{}),
+            .link_libcpp = true,
+        }),
     });
-    lib.linkLibCpp();
     lib.addIncludePath(upstream.path(""));
     lib.addCSourceFiles(.{
         .root = upstream.path("src"),

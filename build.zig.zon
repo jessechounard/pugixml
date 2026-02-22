@@ -1,7 +1,7 @@
 .{
     .name = .pugixml,
     .version = "1.15.0",
-    .minimum_zig_version = "0.14.0",
+    .minimum_zig_version = "0.15.0",
     .fingerprint = 0x896281825d37b449,
     .dependencies = .{
         .pugixml = .{
